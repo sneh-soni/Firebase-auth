@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import { BG_URL } from "./constants";
-import { auth } from "../utils/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { BG_URL } from "../utils/constants";
+import { auth, db } from "../utils/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -13,24 +18,31 @@ const Login = () => {
   };
 
   const [user, setUser] = useState({
-    username: "",
-    email: "",
-    password: "",
-    status: "",
+    username: null,
+    email: null,
+    password: null,
+    status: "active",
   });
 
-  const handleSignup = () => {
-    createUserWithEmailAndPassword(auth, user.email, user.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        console.log(error.code + error.message);
-      });
+  const navigate = useNavigate();
+  const handleSignup = async () => {
+    try {
+      await addDoc(collection(db, "users"), { ...user });
+      await createUserWithEmailAndPassword(auth, user.email, user.password);
+      navigate("/weather");
+    } catch (error) {
+      console.error("Error Signing up the user: ", error);
+    }
   };
 
-  const handleLogin = () => {};
+  const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, user.email, user.password);
+      navigate("/weather");
+    } catch (error) {
+      console.log("Error logging in the user: ", error);
+    }
+  };
 
   return (
     <div

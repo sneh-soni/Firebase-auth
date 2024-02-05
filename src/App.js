@@ -1,14 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Login from "./components/Login";
-import { auth } from "./utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./utils/firebase";
 
 function App() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (User) => {
-      if (user) {
+      if (User) {
         setUser(User);
       } else {
         setUser(null);
@@ -18,9 +19,17 @@ function App() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [auth]);
 
-  return <div>{user ? <></> : <Login />}</div>;
+  useEffect(() => {
+    if (user) {
+      navigate("/weather");
+    } else {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
+  return null;
 }
 
 export default App;
