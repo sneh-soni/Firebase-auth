@@ -11,7 +11,7 @@ const Weather = () => {
     backgroundPosition: "center",
   };
   return (
-    <div style={backgroundStyles} className="h-screen w-screen">
+    <div style={backgroundStyles} className="h-screen w-screen flex">
       <WeatherInfo />
       <Table />
     </div>

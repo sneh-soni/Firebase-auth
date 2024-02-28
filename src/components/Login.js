@@ -29,7 +29,6 @@ const Login = () => {
     try {
       await addDoc(collection(db, "users"), { ...user });
       await createUserWithEmailAndPassword(auth, user.email, user.password);
-      navigate("/weather");
     } catch (error) {
       console.error("Error Signing up the user: ", error);
     }
