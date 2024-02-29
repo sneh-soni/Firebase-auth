@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Login from "./components/Login";
-import Weather from "./components/Weather";
+import LoggedInApp from "./components/loggedIn.js";
 
 const approuter = createBrowserRouter([
   {
@@ -20,8 +20,8 @@ const approuter = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/weather",
-        element: <Weather />,
+        path: "/loggedIn",
+        element: <LoggedInApp />,
       },
     ],
   },

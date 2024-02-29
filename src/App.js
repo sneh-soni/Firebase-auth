@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      navigate("/weather");
+      navigate("/loggedIn");
     } else {
       navigate("/login");
     }

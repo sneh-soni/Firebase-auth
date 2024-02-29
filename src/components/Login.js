@@ -21,7 +21,6 @@ const Login = () => {
     username: null,
     email: null,
     password: null,
-    status: "active",
   });
 
   const navigate = useNavigate();
@@ -37,7 +36,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, user.email, user.password);
-      navigate("/weather");
+      navigate("/loggedIn");
     } catch (error) {
       console.log("Error logging in the user: ", error);
     }
